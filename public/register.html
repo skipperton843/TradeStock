@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TradeStock | Registration</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f6fb;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .register-container {
+      background: white;
+      width: 420px;
+      max-width: 90%;
+      padding: 35px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px #00000015;
+    }
+
+    h1, h2, p { text-align: center; }
+
+    h1 { color: #10233f; }
+
+    h2 { font-size: 20px; }
+
+    p { color: #617087; }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      border: 1px solid #ccd5e0;
+      border-radius: 6px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 25px;
+      background: #1677d2;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover { background: #095ca8; }
+
+    a { color: #1677d2; }
+
+    .notice { font-size: 13px; }
+  </style>
+</head>
+
+<body>
+  <div class="register-container">
+    <h1>TradeStock</h1>
+    <h2>Create Your Account</h2>
+    <p>Register to explore simulated stock trading.</p>
+
+    <form id="registrationForm">
+      <label for="fullName">Full Name</label>
+      <input type="text" id="fullName"
+        placeholder="Enter your full name" required>
+
+      <label for="email">Email Address</label>
+      <input type="email" id="email"
+        placeholder="Enter your email" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password"
+        placeholder="Create a password"
+        minlength="8" required>
+
+      <label for="confirmPassword">Confirm Password</label>
+      <input type="password" id="confirmPassword"
+        placeholder="Confirm your password" required>
+
+      <button type="submit">Create Account</button>
+    </form>
+
+    <p>Already have an account?
+      <a href="login.html">Login Here</a>
+    </p>
+
+    <p class="notice">
+      Demonstration only. Registration is not
+      connected to a database. Do not enter
+      real personal information or passwords.
+    </p>
+  </div>
+
+  <script>
+    document.getElementById("registrationForm")
+      .addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const password =
+          document.getElementById("password").value;
+
+        const confirmPassword =
+          document.getElementById("confirmPassword").value;
+
+        if (password !== confirmPassword) {
+          alert("Passwords do not match.");
+          return;
+        }
+
+        alert(
+          "Registration form validated successfully! " +
+          "Account creation will be enabled " +
+          "after database integration."
+        );
+      });
+  </script>
+</body>
+</html>

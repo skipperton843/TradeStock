@@ -1,0 +1,196 @@
+
+Jonisha Gibson <jgibso23@asu.edu>
+6:59 PM (0 minutes ago)
+to Jonisha
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TradeStock Admin Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      color: #333;
+    }
+    header {
+      background: #303b4c;
+      color: white;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 { margin: 0; }
+    main {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .card, .panel {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px #00000012;
+      margin-bottom: 20px;
+    }
+    .card h2 { font-size: 16px; }
+    .card p {
+      font-size: 28px;
+      font-weight: bold;
+      color: #2878c8;
+    }
+    input {
+      padding: 12px;
+      margin: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      padding: 12px 18px;
+      background: #2878c8;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>TradeStock Admin</h1>
+    <a href="index.html" style="color:white">
+      Return to Dashboard
+    </a>
+  </header>
+
+  <main>
+    <h2>Administrator Dashboard</h2>
+    <p>Stock Management - Demonstration Mode</p>
+
+    <div class="cards">
+      <div class="card">
+        <h2>Total Stocks</h2>
+        <p id="totalStocks">3</p>
+      </div>
+      <div class="card">
+        <h2>Market Status</h2>
+        <p>Simulation</p>
+      </div>
+      <div class="card">
+        <h2>System Status</h2>
+        <p>Running</p>
+      </div>
+    </div>
+
+    <section class="panel">
+      <h2>Add Stock</h2>
+      <input id="symbol" placeholder="Stock Symbol">
+      <input id="company" placeholder="Company Name">
+      <input id="price" type="number"
+             min="0.01" step="0.01"
+             placeholder="Stock Price">
+      <button onclick="addStock()">Add Stock</button>
+    </section>
+
+    <section class="panel">
+      <h2>Stock Management</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Symbol</th>
+            <th>Company</th>
+            <th>Price</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="stockTable"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script>
+    const stocks = [
+      {symbol:"AAPL",company:"Apple",price:185.50},
+      {symbol:"MSFT",company:"Microsoft",price:420.25},
+      {symbol:"TSLA",company:"Tesla",price:245.75}
+    ];
+
+    function renderStocks() {
+      const table = document.getElementById("stockTable");
+      table.replaceChildren();
+
+      stocks.forEach((stock, index) => {
+        const row = table.insertRow();
+
+        [stock.symbol, stock.company,
+         "$" + stock.price.toFixed(2)].forEach(value => {
+          const cell = row.insertCell();
+          cell.textContent = value;
+        });
+
+        const actionCell = row.insertCell();
+        const button = document.createElement("button");
+        button.textContent = "Remove";
+        button.onclick = () => {
+          stocks.splice(index, 1);
+          renderStocks();
+        };
+        actionCell.appendChild(button);
+      });
+
+      document.getElementById("totalStocks").textContent =
+        stocks.length;
+    }
+
+    function addStock() {
+      const symbol = document.getElementById("symbol")
+        .value.trim().toUpperCase();
+      const company = document.getElementById("company")
+        .value.trim();
+      const price = Number(document.getElementById("price").value);
+
+      if (!/^[A-Z]{1,5}$/.test(symbol) ||
+          !company ||
+          !Number.isFinite(price) ||
+          price <= 0 ||
+          !document.getElementById("price").value) {
+        alert("Enter a valid symbol, company and price.");
+        return;
+      }
+
+      if (stocks.some(s => s.symbol === symbol)) {
+        alert("This stock already exists.");
+        return;
+      }
+
+      stocks.push({symbol, company, price});
+      renderStocks();
+
+      ["symbol","company","price"].forEach(id => {
+        document.getElementById(id).value = "";
+      });
+    }
+
+    renderStocks();
+  </script>
+</body>
+</html>
